@@ -15,7 +15,7 @@ class medianString:
     KMER_LIST     = []
 
     BEST_KMER     = ""
-    BEST_KMER_D   = 0
+    BEST_KMER_D   = 101
     K             = 0
 
     # Finds input files from the current directory
@@ -36,9 +36,11 @@ class medianString:
     def distance(self,kmer):
         distance = 0
 
-        for x,y in zip(kmer,self.DNA_LIST):
-            if x != y:
-                distance+=1
+        for dna in self.DNA_LIST:
+            if len(dna) == len(kmer):
+                for i,char in enumerate(dna):
+                    if char != kmer[i]:
+                        distance += 1
 
         return distance
         
@@ -56,7 +58,6 @@ class medianString:
                 # Splits up the DNA from the input file into an array then loops over it saving each strand as a list to the class variable DNA_LIST
                 for dna in re.split('[\s\n]',lines[1]):
                     self.DNA_LIST.append(list(dna))
-
         except OSError:
             print("Could not open file " + myFile + ".")
             exit()
@@ -68,12 +69,7 @@ class medianString:
                 self.BEST_KMER = kmer
                 self.BEST_KMER_D = self.distance(kmer)
 
-        return self.BEST_KMER
-        # for each kmer of size k
-        # if distance(kmer,dna) < d(bestKmer,dna):
-        #   bestKmer = kmer
-        #   return(bestKmer)
-
+        return ''.join(map(str, self.BEST_KMER)) # Will return a string instead of a tuple
 
     def run(self):
         for file in self.INPUT_FILES:
