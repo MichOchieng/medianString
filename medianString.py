@@ -53,9 +53,10 @@ class medianString:
             with open(myFile,"r",encoding='utf-8',errors='ignore') as file:
                 lines = file.readlines()
                 self.K = int(re.split('[\s\n]',lines[0])[0])# Gets 'K' from the file
-                # Splits up the DNA from the input file into an array then loops over it saving each strand to the class variable DNA_LIST
+                # Splits up the DNA from the input file into an array then loops over it saving each strand as a list to the class variable DNA_LIST
                 for dna in re.split('[\s\n]',lines[1]):
-                    self.DNA_LIST.append(dna)
+                    self.DNA_LIST.append(list(dna))
+
         except OSError:
             print("Could not open file " + myFile + ".")
             exit()
