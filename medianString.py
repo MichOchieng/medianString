@@ -1,5 +1,5 @@
 import re     
-from itertools import permutations
+from itertools import product
 from sys       import exit
 from os        import walk
 from pathlib   import Path
@@ -30,10 +30,8 @@ class medianString:
                 self.INPUT_FILES.append(file)
  
     def fillKmerList(self,k):
-        for kmer in permutations(self.ALPHABET, k):
+        for kmer in product(self.ALPHABET, repeat = k):
             self.KMER_LIST.append(kmer)
-        print(len(self.KMER_LIST))
-        print(self.KMER_LIST)
 
     def distance(self,kmer):
         distance = 0
@@ -54,13 +52,15 @@ class medianString:
         try: 
             with open(myFile,"r",encoding='utf-8',errors='ignore') as file:
                 lines = file.readlines()
-
+                self.K = int(re.split('[\s\n]',lines[0])[0])# Gets 'K' from the file
                 # Splits up the DNA from the input file into an array then loops over it saving each strand to the class variable DNA_LIST
-                for dna in re.split('[\s]',lines[1]):
+                for dna in re.split('[\s\n]',lines[1]):
                     self.DNA_LIST.append(dna)
         except OSError:
             print("Could not open file " + myFile + ".")
             exit()
+
+        self.fillKmerList(self.K)
 
         for kmer in self.KMER_LIST:
             if self.distance(kmer) < self.BEST_KMER_D:
@@ -81,5 +81,4 @@ class medianString:
 
 
 program = medianString()
-program.fillKmerList(3)
-#program.run()
+program.run()
