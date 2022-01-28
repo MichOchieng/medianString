@@ -15,7 +15,7 @@ class medianString:
     KMER_LIST     = []
 
     BEST_KMER     = ""
-    BEST_KMER_D   = []
+    BEST_KMER_D   = [0]
     K             = 0
 
     # Finds input files from the current directory
@@ -48,7 +48,7 @@ class medianString:
                 for dna in re.split('[\s\n]',lines[1]):
                     self.DNA_LIST.append(dna)
                 # Initializes the best kmer distance as the largest possible distance
-                self.BEST_KMER_D.append(self.K * len(self.DNA_LIST) * len(self.DNA_LIST[0]))
+                self.BEST_KMER_D[0] = (self.K * len(self.DNA_LIST) * len(self.DNA_LIST[0]))
         except OSError:
             print("Could not open file " + myFile + ".")
             exit()
